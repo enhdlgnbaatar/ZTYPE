@@ -83,31 +83,31 @@ def _build_en_pool(min_l, max_l, fallback):
 
 _MN_FALLBACK = {
     "short": [
-        "ger","uul","gal","mod","nud","tal","us","sar","nar","od","gol",
-        "zam","nom","gad","mal","hun","em","er","ov","tar","hol","oir",
-        "tus","yum","buu","has","neg","hoyor","gurav","dorv","tav","zurga",
-        "daguu","tsus","bur","aav","eej","akh","egu","ov","tar",
+        "гэр", "уул", "гал", "мод", "нүд", "тал", "ус", "сар", "нар", "од", "гол",
+        "зам", "ном", "гад", "мал", "хүн", "эм", "эр", "өв", "тар", "хол", "ойр",
+        "тус", "юм", "буу", "хас", "нэг", "хоёр", "гурав", "дөрөв", "тав", "зургаа",
+        "дагуу", "цус", "бүр", "аав", "ээж", "ах", "эгүү", "өв", "тар",
     ],
     "medium": [
-        "baatar","mongol","zurkh","nutag","delkhii","tenger","tsagaan",
-        "ulaan","khuren","nogoon","khukh","saikhan","udaan","ikh","baga",
-        "garakh","irikh","yavakh","unshikh","bichikh","tsetseg","naran",
-        "sarnai","arslan","burgad","dalai","agaar","bayaraa","enkhjin",
-        "solongo","narantsetseg","gantumur","enkhbold","dorjpalam",
+        "баатар", "монгол", "зүрх", "нутаг", "дэлхий", "тэнгэр", "цагаан",
+        "улаан", "хүрэн", "ногоон", "хөх", "сайхан", "удаан", "их", "бага",
+        "гарах", "ирэх", "явах", "унших", "бичих", "цэцэг", "наран",
+        "сарнай", "арслан", "бүргэд", "далай", "агаар", "баяраа", "энхжин",
+        "солонго", "наранцэцэг", "гантөмөр", "энхболд", "доржпалам",
     ],
     "long": [
-        "ulaanbaatar","darkhan","erdenet","choibalsan","bayankhongor",
-        "uvurkhangai","dornogobi","khuvsgul","dundgobi","arkhangai",
-        "selenge","zavkhan","khovd","uvs","sukhbaatar","umnugobi","khentii",
-        "mongoliin","tuukhiin","delkhiin","khurdan","tsagaansar","naadam",
-        "erdeniin","odriin","onogdoor","margaash","ireedui","udur","shono",
+        "улаанбаатар", "дархан", "эрдэнэт", "чойбалсан", "баянхонгор",
+        "өвөрхангай", "дорноговь", "хөвсгөл", "дундговь", "архангай",
+        "сэлэнгэ", "завхан", "ховд", "увс", "сүхбаатар", "өмнөговь", "хэнтий",
+        "монголын", "түүхийн", "дэлхийн", "хурдан", "цагаансар", "наадам",
+        "эрдэнийн", "өдрийн", "өнөөдөр", "маргааш", "ирээдүй", "өдөр", "шөнө",
     ],
     "extreme": [
-        "ulaanbaatar-khot","mongoliin-ardchilal","khundlenii-barilga",
-        "erchim-khuchnii-sisteem","kholboony-garig","shinjlekh-ukhaaniy",
-        "bolovsrolyn-yaam","eruu-gurvan-gol","mongolyn-baigal",
-        "erdeniin-undur","tsagaan-agui","govi-taliyn-salkhind",
-        "ondur-uulyn-orhil","mongoliin-tuukh","bayalagiin-gazar",
+        "улаанбаатар-хот", "монголын-ардчилал", "хөндлөнгийн-барилга",
+        "эрчим-хүчний-систем", "холбооны-гараг", "шинжлэх-ухааны",
+        "боловсролын-яам", "эрүү-гурван-гол", "монголын-байгаль",
+        "эрдэнийн-өндөр", "цагаан-агуй", "говь-талын-салхинд",
+        "өндөр-уулын-оргил", "монголын-түүх", "баялгийн-газар",
     ],
 }
 
@@ -907,7 +907,7 @@ class MainMenu:
                            "[ SELECT LANGUAGE ]  //  [ ХЭЛ СОНГОНО УУ ]",
                            MUTED, center=(WIDTH//2, 215))
 
-            options = [("1  ENGLISH","en"),("2  MONGOL","mn")]
+            options = [("1  ENGLISH","en"),("2  МОНГОЛ","mn")]
             btn_w, btn_h, gap = 236, 72, 40
             start_x = 144
 

@@ -45,20 +45,39 @@ HIGHSCORE_FILE = "highscore.json"
 
 
 def get_font_path():
-    local_font = os.path.join(os.path.dirname(__file__), "arial.ttf")
-    if os.path.exists(local_font):
-        return local_font
+    base_dir = os.path.dirname(__file__)
+    bundled_fonts = [
+        "NotoSans-Regular.ttf",
+        "DejaVuSans.ttf",
+        "arial.ttf",
+    ]
+    for filename in bundled_fonts:
+        path = os.path.join(base_dir, filename)
+        if os.path.exists(path):
+            return path
 
-    windows_font = r"C:\Windows\Fonts\arial.ttf"
-    if os.path.exists(windows_font):
-        return windows_font
+    system_fonts = [
+        r"C:\Windows\Fonts\arial.ttf",
+        r"C:\Windows\Fonts\seguiemj.ttf",
+        "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Supplemental/Times New Roman.ttf",
+        "/Library/Fonts/Arial Unicode.ttf",
+        "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ]
+    for path in system_fonts:
+        if os.path.exists(path):
+            return path
 
-    matched_font = pygame.font.match_font("arial")
-    if matched_font:
-        return matched_font
+    for font_name in ("notosans", "dejavusans", "arialunicode", "arial"):
+        matched_font = pygame.font.match_font(font_name)
+        if matched_font:
+            return matched_font
 
     raise FileNotFoundError(
-        "arial.ttf олдсонгүй. ztype.py файлтай нэг хавтсанд arial.ttf хуулж тавина уу."
+        "Кирилл үсэг дэмждэг font олдсонгүй. ztype.py файлтай нэг хавтсанд "
+        "NotoSans-Regular.ttf эсвэл arial.ttf хуулж тавина уу."
     )
 
 
@@ -1125,13 +1144,20 @@ class Game:
         pool = self._pool_long if s["word_max"] >= 8 else self._pool_medium
         return self._pick(pool, mn_l, s["word_max"])
 
+    def spawn_x_for_text(self, text):
+        word_width, _ = self.word_font.size(text)
+        margin = max(70, word_width // 2 + 24)
+        if margin >= WIDTH // 2:
+            return WIDTH // 2
+        return random.randint(margin, WIDTH - margin)
+
     # ── Spawn ────────────────────────────────
     def spawn_word(self):
         s = self.difficulty()
         for _ in range(s["simultaneous"]):
             is_shooter = self.shooters_spawned_this_level < s["shooter_quota"]
             text  = self.choose_shooter_word() if is_shooter else self.choose_word()
-            x     = random.randint(70, WIDTH-70)
+            x     = self.spawn_x_for_text(text)
             y     = random.randint(-50, -16)
             speed = s["word_speed"] + random.uniform(-5, 12)
             if is_shooter:
@@ -1405,4 +1431,4 @@ if __name__ == "__main__":
         menu     = MainMenu(screen, clock, starfield)
         language = menu.run()
         game     = Game(language=language, starfield=starfield)
-        game.run()
+        game.run() 

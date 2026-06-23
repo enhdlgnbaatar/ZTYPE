@@ -44,6 +44,24 @@ ORANGE     = (255, 135, 45)
 HIGHSCORE_FILE = "highscore.json"
 
 
+def get_font_path():
+    local_font = os.path.join(os.path.dirname(__file__), "arial.ttf")
+    if os.path.exists(local_font):
+        return local_font
+
+    windows_font = r"C:\Windows\Fonts\arial.ttf"
+    if os.path.exists(windows_font):
+        return windows_font
+
+    matched_font = pygame.font.match_font("arial")
+    if matched_font:
+        return matched_font
+
+    raise FileNotFoundError(
+        "arial.ttf олдсонгүй. ztype.py файлтай нэг хавтсанд arial.ttf хуулж тавина уу."
+    )
+
+
 _EN_FALLBACK_SHORT = [
     "bit","cpu","ram","code","node","loop","byte","ship","void","star",
     "grid","data","ping","core","wave","hack","port","flux","key","map",
@@ -662,11 +680,17 @@ def draw_glitch_text(surface, font, text, color, center=None, topleft=None, inte
 
 class UI:
     def __init__(self):
-        self.font  = pygame.font.SysFont("consolas", 18, bold=True)
-        self.small = pygame.font.SysFont("consolas", 14)
-        self.big   = pygame.font.SysFont("consolas", 44, bold=True)
-        self.mega  = pygame.font.SysFont("consolas", 58, bold=True)
-        self.combo_font = pygame.font.SysFont("consolas", 28, bold=True)
+        font_path = get_font_path()
+        self.font_path = font_path
+        self.font  = pygame.font.Font(font_path, 18)
+        self.font.set_bold(True)
+        self.small = pygame.font.Font(font_path, 14)
+        self.big   = pygame.font.Font(font_path, 44)
+        self.big.set_bold(True)
+        self.mega  = pygame.font.Font(font_path, 58)
+        self.mega.set_bold(True)
+        self.combo_font = pygame.font.Font(font_path, 28)
+        self.combo_font.set_bold(True)
         self.display_score = 0.0
         self.display_wpm = 0.0
         self.display_progress = 0.0
@@ -751,9 +775,10 @@ class UI:
             shake = random.randint(-3, 3)
         if combo.anim_t > 0:
             scale = pulse + 0.45 * (combo.anim_t / 0.5)
-            fnt = pygame.font.SysFont("consolas", int(28*scale), bold=True)
+            fnt = pygame.font.Font(self.font_path, int(28*scale))
         else:
-            fnt = pygame.font.SysFont("consolas", int(28*pulse), bold=True)
+            fnt = pygame.font.Font(self.font_path, int(28*pulse))
+        fnt.set_bold(True)
         label = f"x{mx}  COMBO"
         streak_label = f"streak  {combo.streak}"
         cx, cy = WIDTH - 95 + shake, HEIGHT - 82 + shake
@@ -829,7 +854,8 @@ class UI:
         if new_hi:
             draw_neon_text(surface, self.font, "NEW HIGH SCORE", YELLOW, center=(WIDTH//2, 430))
         pulse = 1.0 + 0.10 * math.sin(ticks * 0.012)
-        prompt_font = pygame.font.SysFont("consolas", int(18 * pulse), bold=True)
+        prompt_font = pygame.font.Font(self.font_path, int(18 * pulse))
+        prompt_font.set_bold(True)
         draw_neon_text(surface, prompt_font, "PRESS [R] TO REBOOT SYSTEM",
                        YELLOW, center=(WIDTH//2, 456))
 
@@ -841,9 +867,12 @@ class MainMenu:
         self.screen    = screen
         self.clock     = clock
         self.starfield = starfield
-        self.font_title = pygame.font.SysFont("consolas", 52, bold=True)
-        self.font_sub   = pygame.font.SysFont("consolas", 22, bold=True)
-        self.font_hint  = pygame.font.SysFont("consolas", 15)
+        font_path = get_font_path()
+        self.font_title = pygame.font.Font(font_path, 52)
+        self.font_title.set_bold(True)
+        self.font_sub   = pygame.font.Font(font_path, 22)
+        self.font_sub.set_bold(True)
+        self.font_hint  = pygame.font.Font(font_path, 15)
         self.selected   = 0
         self.blink_t    = 0.0
         self.highscore  = load_highscore()
@@ -970,8 +999,11 @@ class Game:
         self.audio       = AudioManager()
         self.ui          = UI()
 
-        self.word_font       = pygame.font.SysFont("consolas", 26, bold=True)
-        self.projectile_font = pygame.font.SysFont("consolas", 22, bold=True)
+        font_path = get_font_path()
+        self.word_font       = pygame.font.Font(font_path, 26)
+        self.word_font.set_bold(True)
+        self.projectile_font = pygame.font.Font(font_path, 22)
+        self.projectile_font.set_bold(True)
 
         self.highscore = load_highscore()
         self._build_pools()
